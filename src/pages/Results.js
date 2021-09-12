@@ -7,21 +7,28 @@ import studentData from "../Data";
 import { useHistory, useParams } from 'react-router-dom';
 
 function Results() {
-    let history = useHistory();      
+    let history = useHistory();
+	let {student} = useParams();     
 	const [activeStudent, setActiveStudent] = useState("All students");
 	const [activeResultFilter, setActiveResultFilter] = useState(
 		resultFilterOptions.DIFFICULTY_ENJOYMENT
-	);    
-    const handleChange = (value)=> {
-    history.push(`${value}`);
-    }    
-  
+	);          
+
+	useEffect(()=>{
+		if(typeof student !== 'undefined' ){
+		setActiveStudent(student)
+		}
+	},[student])
+
+	const handleChange = (value)=> {
+    history.push(`/results/${value}`);
+    }  
+
 	const studentsWithoutDubs = new Set(
 		studentData.map(({ studentName }) => studentName)
 	);
 	const students = Array.from(studentsWithoutDubs);  
     
-
 	return (
 		<div className="results">
 			<h1>Results</h1>
